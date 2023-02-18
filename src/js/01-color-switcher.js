@@ -1,19 +1,23 @@
 const bodyEl = document.querySelector('body');
 const startButtonEl = document.querySelector('button[data-start]');
 const stopButtonEl = document.querySelector('button[data-stop]');
+stopButtonEl.setAttribute('disabled', '');
 let intID;
 
 startButtonEl.addEventListener('click', () => {
-  startButtonEl.setAttribute('disabled', '');
-  stopButtonEl.removeAttribute('disabled', '');
+  buttonToggler();
   colorChanger();
 });
 
 stopButtonEl.addEventListener('click', () => {
-  startButtonEl.removeAttribute('disabled', '');
-  stopButtonEl.setAttribute('disabled', '');
+  buttonToggler();
   clearInterval(intID);
 });
+
+function buttonToggler() {
+  startButtonEl.toggleAttribute('disabled');
+  stopButtonEl.toggleAttribute('disabled');
+}
 
 function colorChanger() {
   intID = setInterval(
