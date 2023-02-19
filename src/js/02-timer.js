@@ -18,17 +18,21 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
+    //console.log(selectedDates[0]);
     if (selectedDates[0] <= Date.now() || selectedDates[0] === undefined) {
       Report.failure('Error', 'Please choose a date in the future.', 'Okay');
+      startButtonEl.setAttribute('disabled', '');
     } else {
-      startButtonEl.toggleAttribute('disabled');
+      startButtonEl.removeAttribute('disabled');
       startButtonEl.addEventListener('click', () => {
-        const targetDate = selectedDates[0];
+        startButtonEl.setAttribute('disabled', '');
         counter = setInterval(() => {
-          const timeLeft = targetDate - Date.now();
+          const timeLeft = selectedDates[0] - Date.now();
+          //console.log(selectedDates[0]);
           if (timeLeft < 1000) {
             Report.info('Info', "Time's up!", 'Okay');
             clearInterval(counter);
+            startButtonEl.removeAttribute('disabled');
           }
           timerUpdater(timeLeft);
         }, 1000);
