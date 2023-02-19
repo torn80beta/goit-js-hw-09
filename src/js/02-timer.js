@@ -7,10 +7,11 @@ const hoursValueEl = document.querySelector('.value[data-hours]');
 const minsValueEl = document.querySelector('.value[data-minutes]');
 const secValueEl = document.querySelector('.value[data-seconds]');
 const startButtonEl = document.querySelector('button[data-start]');
+const dateInput = document.querySelector('input#datetime-picker');
 startButtonEl.setAttribute('disabled', '');
 
-const dateInput = document.querySelector('input#datetime-picker');
 let counter;
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -19,21 +20,20 @@ const options = {
   onClose(selectedDates) {
     if (selectedDates[0] <= Date.now() || selectedDates[0] === undefined) {
       Report.failure('Error', 'Please choose a date in the future.', 'Okay');
-      selectedDates.pop();
     } else {
       startButtonEl.toggleAttribute('disabled');
+      startButtonEl.addEventListener('click', () => {
+        const targetDate = selectedDates[0];
+        counter = setInterval(() => {
+          const timeLeft = targetDate - Date.now();
+          if (timeLeft < 1000) {
+            Report.info('Info', "Time's up!", 'Okay');
+            clearInterval(counter);
+          }
+          timerUpdater(timeLeft);
+        }, 1000);
+      });
     }
-    startButtonEl.addEventListener('click', () => {
-      const targetDate = selectedDates[0];
-      counter = setInterval(() => {
-        const timeLeft = targetDate - Date.now();
-        if (timeLeft < 1000) {
-          clearInterval(counter);
-          Report.info('Info', "Time's up!", 'Okay');
-        }
-        timerUpdater(timeLeft);
-      }, 1000);
-    });
   },
 };
 
