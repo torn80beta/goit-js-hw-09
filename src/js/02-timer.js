@@ -1,21 +1,64 @@
 import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/themes/dark.css';
 
-bodyEl = document.querySelector('body');
-timerEl = document.querySelector('.timer');
-fieldEl = document.querySelector('.field');
-valueEl = document.querySelector('.value');
-labelEl = document.querySelector('.label');
+// bodyEl = document.querySelector('body');
+// timerEl = document.querySelector('.timer');
+// fieldEl = document.querySelector('.field');
+//labelEl = document.querySelector('.label');
+daysValueEl = document.querySelector('.value[data-days]');
+hoursValueEl = document.querySelector('.value[data-hours]');
+minsValueEl = document.querySelector('.value[data-minutes]');
+secValueEl = document.querySelector('.value[data-seconds]');
+startButtonEl = document.querySelector('button[data-start]');
+startButtonEl.setAttribute('disabled', '');
 
+const dateInput = document.querySelector('input#datetime-picker');
+let counter;
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    if (selectedDates[0] <= Date.now() || selectedDates[0] === undefined) {
+      window.alert('Please choose a date in the future');
+    } else {
+      startButtonEl.toggleAttribute('disabled');
+    }
+    startButtonEl.addEventListener('click', () => {
+      console.log(selectedDates[0]);
+      const targetDate = selectedDates[0];
+      counter = setInterval(() => {
+        console.log(targetDate - Date.now());
+        if (Date.now() >= targetDate) {
+          clearInterval(counter);
+        }
+      }, 1000);
+    });
   },
 };
 
-const myInput = document.querySelector('input#datetime-picker');
-const fp = flatpickr(myInput, options);
+const fp = flatpickr(dateInput, options);
+
+//console.log(daysValueEl, hoursValueEl, minsValueEl, secValueEl);
+
+function timerUpdater() {}
+
+function convertMs(ms) {
+  // Number of milliseconds per unit of time
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  // Remaining days
+  const days = Math.floor(ms / day);
+  // Remaining hours
+  const hours = Math.floor((ms % day) / hour);
+  // Remaining minutes
+  const minutes = Math.floor(((ms % day) % hour) / minute);
+  // Remaining seconds
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+
+  return { days, hours, minutes, seconds };
+}
