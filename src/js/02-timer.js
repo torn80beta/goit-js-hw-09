@@ -2,10 +2,10 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/themes/dark.css';
 import { Report } from 'notiflix/build/notiflix-report-aio';
 
-daysValueEl = document.querySelector('.value[data-days]');
-hoursValueEl = document.querySelector('.value[data-hours]');
-minsValueEl = document.querySelector('.value[data-minutes]');
-secValueEl = document.querySelector('.value[data-seconds]');
+const daysValueEl = document.querySelector('.value[data-days]');
+const hoursValueEl = document.querySelector('.value[data-hours]');
+const minsValueEl = document.querySelector('.value[data-minutes]');
+const secValueEl = document.querySelector('.value[data-seconds]');
 startButtonEl = document.querySelector('button[data-start]');
 startButtonEl.setAttribute('disabled', '');
 
