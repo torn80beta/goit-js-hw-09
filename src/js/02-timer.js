@@ -8,7 +8,7 @@ const minsValueEl = document.querySelector('.value[data-minutes]');
 const secValueEl = document.querySelector('.value[data-seconds]');
 const startButtonEl = document.querySelector('button[data-start]');
 const dateInput = document.querySelector('input#datetime-picker');
-startButtonEl.setAttribute('disabled', '');
+//startButtonEl.setAttribute('disabled', '');
 
 let counter;
 
@@ -18,17 +18,19 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
+    const targetDate = selectedDates[selectedDates - 1];
     if (selectedDates[0] <= Date.now() || selectedDates[0] === undefined) {
       Report.failure('Error', 'Please choose a date in the future.', 'Okay');
     } else {
-      startButtonEl.toggleAttribute('disabled');
+      //startButtonEl.toggleAttribute('disabled');
       startButtonEl.addEventListener('click', () => {
-        const targetDate = selectedDates[0];
         counter = setInterval(() => {
+          console.log(selectedDates);
           const timeLeft = targetDate - Date.now();
           if (timeLeft < 1000) {
             Report.info('Info', "Time's up!", 'Okay');
             clearInterval(counter);
+            return;
           }
           timerUpdater(timeLeft);
         }, 1000);
