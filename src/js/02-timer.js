@@ -1,10 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/themes/dark.css';
+import { Report } from 'notiflix/build/notiflix-report-aio';
 
-// bodyEl = document.querySelector('body');
-// timerEl = document.querySelector('.timer');
-// fieldEl = document.querySelector('.field');
-//labelEl = document.querySelector('.label');
 daysValueEl = document.querySelector('.value[data-days]');
 hoursValueEl = document.querySelector('.value[data-hours]');
 minsValueEl = document.querySelector('.value[data-minutes]');
@@ -21,12 +18,12 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] <= Date.now() || selectedDates[0] === undefined) {
-      window.alert('Please choose a date in the future');
+      Report.failure('Error', 'Please choose a date in the future.', 'Okay');
+      selectedDates.pop();
     } else {
       startButtonEl.toggleAttribute('disabled');
     }
     startButtonEl.addEventListener('click', () => {
-      //   console.log(selectedDates[0]);
       const targetDate = selectedDates[0];
       counter = setInterval(() => {
         timeLeft = targetDate - Date.now();
@@ -34,15 +31,12 @@ const options = {
           clearInterval(counter);
         }
         timerUpdater(timeLeft);
-        // console.log(timeLeft);
       }, 1000);
     });
   },
 };
 
 const fp = flatpickr(dateInput, options);
-
-//console.log(daysValueEl, hoursValueEl, minsValueEl, secValueEl);
 
 function timerUpdater(time) {
   daysValueEl.textContent = String(convertMs(time).days).padStart(2, '0');
