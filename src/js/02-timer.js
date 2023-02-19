@@ -28,8 +28,8 @@ const options = {
       counter = setInterval(() => {
         timeLeft = targetDate - Date.now();
         if (timeLeft < 1000) {
-          Report.info('Info', "Time's up!", 'Okay');
           clearInterval(counter);
+          Report.info('Info', "Time's up!", 'Okay');
         }
         timerUpdater(timeLeft);
       }, 1000);
