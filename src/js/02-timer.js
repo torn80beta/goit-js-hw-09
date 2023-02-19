@@ -26,13 +26,15 @@ const options = {
       startButtonEl.toggleAttribute('disabled');
     }
     startButtonEl.addEventListener('click', () => {
-      console.log(selectedDates[0]);
+      //   console.log(selectedDates[0]);
       const targetDate = selectedDates[0];
       counter = setInterval(() => {
-        console.log(targetDate - Date.now());
-        if (Date.now() >= targetDate) {
+        timeLeft = targetDate - Date.now();
+        if (timeLeft < 1000) {
           clearInterval(counter);
         }
+        timerUpdater(timeLeft);
+        // console.log(timeLeft);
       }, 1000);
     });
   },
@@ -42,7 +44,12 @@ const fp = flatpickr(dateInput, options);
 
 //console.log(daysValueEl, hoursValueEl, minsValueEl, secValueEl);
 
-function timerUpdater() {}
+function timerUpdater(time) {
+  daysValueEl.textContent = String(convertMs(time).days).padStart(2, '0');
+  hoursValueEl.textContent = String(convertMs(time).hours).padStart(2, '0');
+  minsValueEl.textContent = String(convertMs(time).minutes).padStart(2, '0');
+  secValueEl.textContent = String(convertMs(time).seconds).padStart(2, '0');
+}
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
