@@ -26,7 +26,7 @@ const options = {
     startButtonEl.addEventListener('click', () => {
       const targetDate = selectedDates[0];
       counter = setInterval(() => {
-        timeLeft = targetDate - Date.now();
+        const timeLeft = targetDate - Date.now();
         if (timeLeft < 1000) {
           clearInterval(counter);
           Report.info('Info', "Time's up!", 'Okay');
