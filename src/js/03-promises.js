@@ -43,8 +43,8 @@ function createPromise(index, delay) {
 
 createPromise(2, 1500)
   .then(({ index, delay }) => {
-    Notify.success(`✅ Fulfilled promise ${index} in ${delay}ms`);
+    console.log(`✅ Fulfilled promise ${index} in ${delay}ms`);
   })
   .catch(({ index, delay }) => {
-    Notify.failure(`❌ Rejected promise ${index} in ${delay}ms`);
+    console.log(`❌ Rejected promise ${index} in ${delay}ms`);
   });
