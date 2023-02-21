@@ -9,6 +9,7 @@ const refs = {
 
 refs.submitButtonEl.addEventListener('click', e => {
   e.preventDefault();
+  refs.submitButtonEl.setAttribute('disabled', '');
   let delay = Number(refs.delayEl.value);
   const step = Number(refs.stepEl.value);
   const amount = Number(refs.amountEl.value);
