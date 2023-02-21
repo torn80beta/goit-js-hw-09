@@ -15,16 +15,19 @@ refs.submitButtonEl.addEventListener('click', e => {
   const amount = Number(refs.amountEl.value);
 
   for (let index = 1; index <= amount; index++) {
-    setTimeout(() => {
-      createPromise(index, delay)
-        .then(({ index, delay }) => {
-          Notify.success(`✅ Fulfilled promise ${index} in ${delay}ms`);
-        })
-        .catch(({ index, delay }) => {
-          Notify.failure(`❌ Rejected promise ${index} in ${delay}ms`);
-        });
-      delay += step;
-    }, 0);
+    createPromise(index, delay)
+      .then(({ index, delay }) => {
+        Notify.success(`✅ Fulfilled promise ${index} in ${delay}ms`);
+      })
+      .catch(({ index, delay }) => {
+        Notify.failure(`❌ Rejected promise ${index} in ${delay}ms`);
+      })
+      .then(() => {
+        if (index === amount) {
+          refs.submitButtonEl.removeAttribute('disabled');
+        }
+      });
+    delay += step;
   }
 });
 
